@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wikipedia Blurb</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script> 
+</head>
+<body>
+
+<div id="book">
+    <div id="article"></div>
+</div>
+
+<p onclick="increaseCount()">Next</p>
+
+<script type="text/javascript">
+     var presidents = ["George_Washington","John_Adams", "Thomas_Jefferson","James_Madison","James_Monroe", "John_Quincy_Adams","Andrew_Jackson","Martin_Van_Buren","William_Henry_Harrison","John_Tyler","James_K._Polk","Zachary_Taylor","Millard_Fillmore","Franklin_Pierce","James_Buchanan", "Abraham_Lincoln", "Andrew_Johnson", "Ulysses_S._Grant", "Rutherford_B._Hayes", "James_Garfield", "Chester_Arthur","Grover_Cleveland", "Benjamin_Harrison", "William_McKinley", "Theodore_Roosevelt", "William_Howard_Taft", "Woodrow_Wilson", "Warren_Harding", "Calvin_Coolidge", "Herbert_Hoover", "Franklin_D._Roosevelt", "Harry_Truman", "Dwight_Eisenhower", "John_F._Kennedy", "Lyndon_Johnson", "Richard_Nixon", "Gerald_Ford", "Jimmy_Carter", "Ronald_Reagan", "George_Bush", "Bill_Clinton", "George_W._Bush", "Barack_Obama","Donald_Trump"];
+
+/*,"John_Adams", "Thomas_Jefferson","James_Madison","James_Monroe", "John_Quincy_Adams","Andrew_Jackson","Martin_Van_Buren","William_Henry_Harrison","John_Tyler","James_K._Polk","Zachary_Taylor","Millard_Fillmore","Franklin_Pierce","James_Buchanan", "Abraham_Lincoln", "Andrew_Johnson", "Ulysses_S._Grant", "Rutherford_B._Hayes", "James_Garfield", "Chester_Arthur","Grover_Cleveland", "Benjamin_Harrison", "William_McKinley", "Theodore_Roosevelt", "William_Howard_Taft", "Woodrow_Wilson", "Warren_Harding", "Calvin_Coolidge", "Herbert_Hoover", "Franklin_D._Roosevelt", "Harry_Truman", "Dwight_Eisenhower", "John_F._Kennedy", "Lyndon_Johnson", "Richard_Nixon", "Gerald_Ford", "Jimmy_Carter", "Ronald_Reagan", "George_Bush", "Bill_Clinton", "George_W._Bush", "Barack_Obama","Donald_Trump"*/
+
+     var count = 0;
+     next(count);
+
+    function next(count){
+
+    $(document).ready(function(){
+      
+    $.ajax({
+        type: "GET",
+        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+presidents[count]+"&callback=?",
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+        
+        var markup = data.parse.text["*"];
+        var i = $('<div></div>').html(markup);
+        
+        // remove links as they will not work
+        i.find('a').each(function() { $(this).replaceWith($(this).html()); });
+        
+        // remove any references
+        i.find('sup').remove();
+        
+        // remove cite error
+        i.find('.mw-ext-cite-error').remove();
+
+        
+        $('#article').html($(i).find('img').first());
+        /*$('#article').html($(i).find('td').has('p'));*/
+        /*$('#article').html($(i).find('p'));*/
+        i.find('tbody').remove();
+        $('#article').append(i.find('p'));
+        var title = $("b");
+        $(title).css("text-align", "center");
+        $(title).append("<br>");
+
+        /*$("#article i.find('tbody')").remove(); */ 
+        
+        },
+        error: function (errorMessage) {
+        }
+    });    
+    
+    });
+
+    }
+    
+    function increaseCount(){
+        console.log(count);
+        count++; 
+        next(count);
+
+    }
+    
+</script>
+ 
+ <!-- Google Analytics -->
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-44644611-1']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_setAllowLinker', true]);
+    _gaq.push(['_trackPageview']);
+    
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    
+</script>
+ 
+</body>
+</html>
