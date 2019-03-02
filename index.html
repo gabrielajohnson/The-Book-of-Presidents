@@ -12,7 +12,21 @@
 
 <div id="book">
     <div id="article"></div>
+
 </div>
+
+<div id="element"><p id="hello">Hello Worldello Worldello Worldello World</p></div>
+
+<style>
+p{
+  height:100%;
+  width:100%;
+  margin:0;
+}
+
+div{width:150px; height:40px; overflow:hidden; }
+
+</style>
 
 <p onclick="increaseCount()">Next</p>
 
@@ -74,6 +88,17 @@
         count++; 
         next(count);
 
+    }
+
+
+    var element = document.querySelector('#hello');
+    if( (element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)){
+       // your element have overflow
+      element.style.background = "blue";
+    }
+    else{
+      element.style.background = "yellow";
+      //your element don't have overflow
     }
     
 </script>
