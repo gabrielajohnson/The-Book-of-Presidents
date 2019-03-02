@@ -3,37 +3,22 @@
 <head>
 <title>Wikipedia Blurb</title>
 <link rel="stylesheet" href="style.css">
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script> 
 </head>
 <body>
 
 <div id="book">
     <div id="article"></div>
-
 </div>
 
-<div id="element"><p id="hello">Hello Worldello Worldello Worldello World</p></div>
 
-<style>
-p{
-  height:100%;
-  width:100%;
-  margin:0;
-}
-
-div{width:150px; height:40px; overflow:hidden; }
-
-</style>
-
-<p onclick="increaseCount()">Next</p>
+<p onclick="decreaseCount()" class="prev">Prev</p>
+<p onclick="increaseCount()" class="next">Next</p>
 
 <script type="text/javascript">
-     var presidents = ["George_Washington","John_Adams", "Thomas_Jefferson","James_Madison","James_Monroe", "John_Quincy_Adams","Andrew_Jackson","Martin_Van_Buren","William_Henry_Harrison","John_Tyler","James_K._Polk","Zachary_Taylor","Millard_Fillmore","Franklin_Pierce","James_Buchanan", "Abraham_Lincoln", "Andrew_Johnson", "Ulysses_S._Grant", "Rutherford_B._Hayes", "James_Garfield", "Chester_Arthur","Grover_Cleveland", "Benjamin_Harrison", "William_McKinley", "Theodore_Roosevelt", "William_Howard_Taft", "Woodrow_Wilson", "Warren_Harding", "Calvin_Coolidge", "Herbert_Hoover", "Franklin_D._Roosevelt", "Harry_Truman", "Dwight_Eisenhower", "John_F._Kennedy", "Lyndon_Johnson", "Richard_Nixon", "Gerald_Ford", "Jimmy_Carter", "Ronald_Reagan", "George_Bush", "Bill_Clinton", "George_W._Bush", "Barack_Obama","Donald_Trump"];
+     var presidents = ["George_Washington","John_Adams", "Thomas_Jefferson","James_Madison","James_Monroe", "John_Quincy_Adams","Andrew_Jackson","Martin_Van_Buren","William_Henry_Harrison","John_Tyler","James_K._Polk","Zachary_Taylor","Millard_Fillmore","Franklin_Pierce","James_Buchanan", "Abraham_Lincoln", "Andrew_Johnson", "Ulysses_S._Grant", "Rutherford_B._Hayes", "James_A._Garfield", "Chester_Arthur","Grover_Cleveland", "Benjamin_Harrison", "William_McKinley", "Theodore_Roosevelt", "William_Howard_Taft", "Woodrow_Wilson", "Warren_Harding", "Calvin_Coolidge", "Herbert_Hoover", "Franklin_D._Roosevelt", "Harry_Truman", "Dwight_Eisenhower", "John_F._Kennedy", "Lyndon_B._Johnson", "Richard_Nixon", "Gerald_Ford", "Jimmy_Carter", "Ronald_Reagan", "George_H._W._Bush", "Bill_Clinton", "George_W._Bush", "Barack_Obama","Donald_Trump"];
 
-/*,"John_Adams", "Thomas_Jefferson","James_Madison","James_Monroe", "John_Quincy_Adams","Andrew_Jackson","Martin_Van_Buren","William_Henry_Harrison","John_Tyler","James_K._Polk","Zachary_Taylor","Millard_Fillmore","Franklin_Pierce","James_Buchanan", "Abraham_Lincoln", "Andrew_Johnson", "Ulysses_S._Grant", "Rutherford_B._Hayes", "James_Garfield", "Chester_Arthur","Grover_Cleveland", "Benjamin_Harrison", "William_McKinley", "Theodore_Roosevelt", "William_Howard_Taft", "Woodrow_Wilson", "Warren_Harding", "Calvin_Coolidge", "Herbert_Hoover", "Franklin_D._Roosevelt", "Harry_Truman", "Dwight_Eisenhower", "John_F._Kennedy", "Lyndon_Johnson", "Richard_Nixon", "Gerald_Ford", "Jimmy_Carter", "Ronald_Reagan", "George_Bush", "Bill_Clinton", "George_W._Bush", "Barack_Obama","Donald_Trump"*/
+
 
      var count = 0;
      next(count);
@@ -44,7 +29,7 @@ div{width:150px; height:40px; overflow:hidden; }
       
     $.ajax({
         type: "GET",
-        url: "https://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+presidents[count]+"&callback=?",
+        url: "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+presidents[count]+"&callback=?",
         contentType: "application/json; charset=utf-8",
         async: false,
         dataType: "json",
@@ -62,6 +47,8 @@ div{width:150px; height:40px; overflow:hidden; }
         // remove cite error
         i.find('.mw-ext-cite-error').remove();
 
+        var test = i.find("Suceeded by").first();
+        console.log(test);
         
         $('#article').html($(i).find('img').first());
         /*$('#article').html($(i).find('td').has('p'));*/
@@ -84,21 +71,24 @@ div{width:150px; height:40px; overflow:hidden; }
     }
     
     function increaseCount(){
-        console.log(count);
         count++; 
-        next(count);
+        if(count > presidents.length){
+            next(0);
+        }else{
+            next(count);
+        }
 
     }
 
+    function decreaseCount(){
+        count--; 
+        if(count < 0){
+            count = presidents.length - 1;
+            next(count);
+        }else{
+            next(count);
+        }
 
-    var element = document.querySelector('#hello');
-    if( (element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)){
-       // your element have overflow
-      element.style.background = "blue";
-    }
-    else{
-      element.style.background = "yellow";
-      //your element don't have overflow
     }
     
 </script>

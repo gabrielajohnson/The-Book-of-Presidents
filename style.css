@@ -5,39 +5,53 @@ html{
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
 	  background-size: cover;*/
-
-	   /* background: url(book.jpg) no-repeat center center fixed;
-		  background-size: cover;
-		  height: 100%;
-		  overflow: hidden;*/
-		  background-color:#4b320d;
+	  background: repeating-linear-gradient(to bottom, #3e2009,#4b320d, #3e2009,#4b320d,#3e2009);
 }
 
 #book{
-	background:url(book.jpg);
+	background: linear-gradient(to right,#712121,#530e0e,#280505,#712121,#530e0e);
+	padding:10px;
 	background-repeat: no-repeat;
 	background-size:cover;
 	width:1100px;
 	height:630px;
 	margin:auto;
+	box-shadow: 0px 0px 20px 1px #1a1a1a;
+	margin-top: 50px;
 }
 
+
+
 #article{
-	/*width:1000px;
-	font-size: 12px;
-	columns: 2;
-	top:20%;
-	left:200px;*/
+    background: linear-gradient(to right,beige,tan 30%,#744d35 50%,tan 80%,beige);
 	font-size: 15px;
-	position: fixed;
 	columns: 2;
 	column-width: 100px;
 	width: 1100px;
 	height: 630px;
 	margin:auto;
 	padding:2px;
-	background: linear-gradient(to right,beige,tan 30%,#654836 50%,tan 80%,beige);
-	/*margin-top: -100px; /* Negative half of height. */
-	/*margin-left: -250px; /* Negative half of width. */
+
+}
+
+#article p{
+	padding:0px 5px;
+}
+
+
+.next{
+	position: fixed;
+    right: 10px;
+    display: block;
+    top: 0;
+    cursor:pointer;
+}
+
+.prev{
+	position: fixed;
+    left: 10px;
+    display: block;
+    top: 0;
+    cursor:pointer;
 }
 
