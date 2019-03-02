@@ -34,8 +34,20 @@ html{
 
 }
 
+#article img{
+	position:relative;
+	left:30%;
+}
+
 #article p{
 	padding:0px 5px;
+}
+
+#article b{
+	text-align: center;
+    display: block;
+    font-size: 18px;
+    font-family: cursive;
 }
 
 
